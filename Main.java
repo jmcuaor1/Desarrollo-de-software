@@ -7,7 +7,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 public class CalculadoraTLC {
-    private static final String URL_TLC = "https://www.example.com/tlc";
+    private static final String URL_TLC = "https://www.larepublica.co/indicadores-economicos/mercado-cambiario/dolar";
 
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
