@@ -33,22 +33,3 @@ public class CalculadoraTLC {
             }
         }
     }
-   
-
-    private static double calcularMomentoOptimo(JSONObject datosComercio) {
-        double max = datosComercio.getDouble("max");
-        double min = datosComercio.getDouble("min");
-
-        return (max - min) / max;
-    }
-}
-
-
-    private static double analizarTipoCambio(String tipoCambioTexto) {
-        // Analizar el tipo de cambio para obtener el valor actual
-        // En este ejemplo, simplemente se toma el primer número que aparece
-        String[] partes = tipoCambioTexto.split(" ");
-        String numeroTexto = partes[0];
-        return Double.parseDouble(numeroTexto);
-    }
-}
