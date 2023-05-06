@@ -33,45 +33,7 @@ public class CalculadoraTLC {
             }
         }
     }
-    import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.Scanner;
-
-import org.json.JSONObject;
-
-public class CalculadoraComercio {
-
-    public static void main(String[] args) throws IOException {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Ingrese el enlace de la página con la información de comercio: ");
-        String enlace = scanner.nextLine();
-
-        JSONObject datosComercio = obtenerDatosComercio(enlace);
-        double momentoOptimo = calcularMomentoOptimo(datosComercio);
-
-        System.out.println("El momento óptimo para importar es " + momentoOptimo);
-    }
-
-    private static JSONObject obtenerDatosComercio(String enlace) throws IOException {
-        URL url = new URL(enlace);
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("GET");
-
-        int responseCode = connection.getResponseCode();
-        if (responseCode == HttpURLConnection.HTTP_OK) {
-            Scanner scanner = new Scanner(connection.getInputStream());
-            StringBuilder respuesta = new StringBuilder();
-            while (scanner.hasNextLine()) {
-                respuesta.append(scanner.nextLine());
-            }
-            scanner.close();
-            connection.disconnect();
-            return new JSONObject(respuesta.toString());
-        } else {
-            throw new IOException("Error al obtener los datos de la página: " + responseCode);
-        }
-    }
+   
 
     private static double calcularMomentoOptimo(JSONObject datosComercio) {
         double max = datosComercio.getDouble("max");
