@@ -1,0 +1,61 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
+
+public class TLCCalculator {
+    private static final String PIB_URL = "https://www.dane.gov.co/index.php/component/search/?searchword=PIB%20percapita&searchphrase=all&Itemid=109#:~:text=Boletín%20semanal%20SIPSA%20-%20semana%20del%2022%20al%2028%20de%20abril%20de%202023&text=PIB%20por%20departamento%20Información%20actualizada,pesos%2C%20a%20precios%20..."; // URL para obtener el PIB actualizado
+    private static final String DOLAR_URL = "https://www.dolarhoy.co"; // URL para obtener la tasa del dólar actualizada
+    private static final double ARANCEL = 0.1; // Tasa de arancel (ejemplo: 10%)
+    private static final double IMPUESTO = 0.05; // Tasa de impuesto (ejemplo: 5%)
+    
+    public static void main(String[] args) {
+        double pib = getActualPIB(); // Obtener el PIB actualizado desde la URL
+        double tasaDolar = getActualTasaDolar(); // Obtener la tasa del dólar actualizada desde la URL
+        
+        // Supongamos que queremos importar un objeto que tiene un costo en dólares
+        double costoDolares = 1000.0;
+        
+        // Calcular el costo en la moneda local (suponiendo una conversión directa sin comisiones)
+        double costoLocal = costoDolares * tasaDolar;
+        
+        // Calcular el costo total considerando los aranceles e impuestos
+        double costoTotal = costoLocal * (1 + ARANCEL) * (1 + IMPUESTO);
+        
+        // Verificar si el costo total es competitivo comparado con el PIB del país
+        if (costoTotal < pib) {
+            System.out.println("Es un buen momento para importar el objeto.");
+        } else {
+            System.out.println("Es recomendable evaluar otras opciones o esperar un mejor momento.");
+        }
+    }
+    
+    // Método para obtener el PIB actualizado desde la URL
+    private static double getActualPIB() {
+        try {
+            URL url = new URL(PIB_URL);
+            URLConnection connection = url.openConnection();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String pibStr = reader.readLine();
+            return Double.parseDouble(pibStr);
+        } catch (IOException e) {
+            System.out.println("Error al obtener el PIB actualizado: " + e.getMessage());
+        }
+        return 0.0;
+    }
+    
+    // Método para obtener la tasa del dólar actualizada desde la URL
+    private static double getActualTasaDolar() {
+        try {
+            URL url = new URL(DOLAR_URL);
+            URLConnection connection = url.openConnection();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String tasaDolarStr = reader.readLine();
+            return Double.parseDouble(tasaDolarStr);
+        } catch (IOException e) {
+            System.out.println("Error al obtener la tasa del dólar actualizada: " + e.getMessage());
+        }
+        return 0.0;
+    }
+}
